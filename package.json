@@ -1,0 +1,27 @@
+{
+  "name": "simplesystemmonitor",
+  "version": "1.0.0",
+  "description": "Display temperature and usage for GPU and CPU",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burakakkanat/SimpleSystemMonitor.git"
+  },
+  "author": "Burak Akkanat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/burakakkanat/SimpleSystemMonitor/issues"
+  },
+  "homepage": "https://github.com/burakakkanat/SimpleSystemMonitor#readme",
+  "devDependencies": {
+    "electron": "^23.1.0"
+  },
+  "dependencies": {
+    "systeminformation": "^5.17.9"
+  }
+}
