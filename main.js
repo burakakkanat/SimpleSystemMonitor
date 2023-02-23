@@ -7,7 +7,8 @@ let mainWindow
 function createWindow() {
     mainWindow = new BrowserWindow({
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
+            sandbox: false
         }
     })
 

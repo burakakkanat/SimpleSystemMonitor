@@ -19,9 +19,35 @@
   },
   "homepage": "https://github.com/burakakkanat/SimpleSystemMonitor#readme",
   "devDependencies": {
-    "electron": "^23.1.0"
+    "electron": "^23.1.0",
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
+    "progressbar.js": "^1.1.0",
     "systeminformation": "^5.17.9"
+  },
+  "build": {
+    "appId": "123456789",
+    "productName": "Simple System Monitor",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "main.js",
+      "index.html",
+      "preload.js"
+    ],
+    "mac": {
+      "category": "your.app.category",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }

@@ -6,29 +6,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Displayer</title>
+    <style>
+        #systemInfo {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: inline-block;
+            margin: 20px;
+        }
+    </style>
+
+    <style>
+        #systemInfoElement {
+            width: 25%;
+            height: 25%;
+            position: relative;
+            display: inline-block;
+            margin: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>System Displayer</h1>
+    <div id="systemInfo">
+        <h3>CPU</h3>
+        <div id="systemInfoElement">
+            <div id="cpu-temperature-bar"></div>
+        </div>
+        <div id="systemInfoElement">
+            <div id="cpu-load-bar"></div>
+        </div>
 
-    <div>
-        <h2>CPU Temperature:</h2>
-        <p id="cpu-temperature"></p>
+        <h3>GPU</h3>
+        <div id="systemInfoElement">
+            <div id="gpu-temperature-bar"></div>
+        </div>
+        <div id="systemInfoElement">
+            <div id="gpu-load-bar"></div>
+        </div>
     </div>
-    <div>
-        <h2>CPU Usage:</h2>
-        <p id="cpu-usage"></p>
-    </div>
-    <div>
-        <h2>GPU Temperature:</h2>
-        <p id="gpu-temperature"></p>
-    </div>
-    <div>
-        <h2>GPU Usage:</h2>
-        <p id="gpu-usage"></p>
-    </div>
-
-    <script src="./renderer.js"></script>
 </body>
 
 </html>
