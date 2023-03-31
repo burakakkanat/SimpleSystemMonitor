@@ -10,7 +10,7 @@ const getOhmCpuTemp = edge.func({
 const getOhmCpuUsage = edge.func({
     assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Release', 'OHMPortLib.dll'),
     typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getOhmCpuUsage'
+    methodName: 'getCpuUsage'
 });
 const getOhmGpuTemp = edge.func({
     assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Release', 'OHMPortLib.dll'),
