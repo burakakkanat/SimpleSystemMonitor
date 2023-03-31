@@ -32,7 +32,7 @@ namespace OHMPort
             return 0f;
         }
 
-        public async Task<object> getCpuUsage()
+        public async Task<object> getCpuUsage(object input)
         {
             Computer computer = new Computer()
             {
@@ -58,7 +58,7 @@ namespace OHMPort
             return 0f;
         }
 
-        public async Task<object> getGpuTemperature()
+        public async Task<object> getGpuTemperature(object input)
         {
             Computer computer = new Computer()
             {
@@ -84,7 +84,7 @@ namespace OHMPort
             return 0f;
         }
 
-        public async Task<object> getGpuUsage()
+        public async Task<object> getGpuUsage(object input)
         {
             Computer computer = new Computer()
             {
