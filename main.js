@@ -1,24 +1,24 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const edge = require('electron-edge-js');
 const path = require('path');
 
 const getOhmCpuTemp = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
+    assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getCpuTemperature'
 });
 const getOhmCpuUsage = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
+    assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getCpuUsage'
 });
 const getOhmGpuTemp = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
+    assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getGpuTemperature'
 });
 const getOhmGpuUsage = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
+    assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getGpuUsage'
 });
@@ -26,12 +26,15 @@ const getOhmGpuUsage = edge.func({
 let mainWindow;
 
 function createWindow() {
+
     mainWindow = new BrowserWindow({
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             sandbox: false
         }
     })
+
+    Menu.setApplicationMenu(null)
 
     mainWindow.setTitle('System Information');
 
@@ -88,7 +91,7 @@ function createWindow() {
         }
     }
 
-    setInterval(sendSystemInfo, 2000);
+    setInterval(sendSystemInfo, 2500);
 }
 
 app.whenReady().then(() => {

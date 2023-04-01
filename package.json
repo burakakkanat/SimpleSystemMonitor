@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "engines": {
     "node": "18.12.1"
@@ -31,7 +33,7 @@
     "shifty": "^2.20.4"
   },
   "build": {
-    "appId": "123456789",
+    "appId": "simple.system.monitor",
     "productName": "Simple System Monitor",
     "directories": {
       "output": "dist"
@@ -48,7 +50,8 @@
       "target": "dmg"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "requestedExecutionLevel": "requireAdministrator"
     },
     "linux": {
       "target": "AppImage"

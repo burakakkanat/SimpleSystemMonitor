@@ -10,19 +10,24 @@ contextBridge.exposeInMainWorld('myAPI', {
 window.addEventListener('DOMContentLoaded', () => {
 
     const cpuTempSemiCircle = new ProgressBar.SemiCircle('#cpu-temperature-bar', {
+        trailWidth: 10,
         strokeWidth: 10,
         color: '#FFEA82',
         trailColor: '#eee',
-        trailWidth: 10,
         easing: 'easeInOut',
-        duration: 1400,
-        svgStyle: null,
-        text: {
-            alignToBottom: false
-        },
+        duration: 1000,
         from: { color: '#FFEA82' },
         to: { color: '#ED6A5A' },
-        // Set default step function for all animate calls
+        text: {
+            alignToBottom: true,
+            style: {
+                fontSize: '25px',
+                fontFamily: 'Helvetica',
+                position: 'absolute',
+                left: '50%',
+                top: '50%'
+            },
+        },
         step: (state, bar) => {
             bar.path.setAttribute('stroke', state.color);
             const value = Math.round(bar.value() * 100) + '°C';
@@ -32,18 +37,18 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     var cpuLoadLine = new ProgressBar.Line('#cpu-load-bar', {
-        strokeWidth: 4,
+        trailWidth: 1,
+        strokeWidth: 3,
         easing: 'easeInOut',
-        duration: 1400,
+        duration: 1000,
         color: '#FFEA82',
         trailColor: '#eee',
-        trailWidth: 1,
-        svgStyle: { width: '100%', height: '100%' },
         from: { color: '#FFEA82' },
         to: { color: '#ED6A5A' },
         text: {
             style: {
-                color: '#999',
+                fontSize: '20px',
+                fontFamily: 'Helvetica',
                 position: 'absolute',
                 right: '0',
                 top: '30px',
@@ -54,26 +59,31 @@ window.addEventListener('DOMContentLoaded', () => {
             autoStyleContainer: false
         },
         step: (state, bar) => {
-            bar.setText(Math.round(bar.value() * 100) + ' %');
+            bar.setText('Usage %' + Math.round(bar.value() * 100));
             bar.path.setAttribute('stroke', state.color);
             bar.text.style.color = state.color;
         }
     });
 
     const gpuTempSemiCircle = new ProgressBar.SemiCircle('#gpu-temperature-bar', {
+        trailWidth: 10,
         strokeWidth: 10,
         color: '#FFEA82',
         trailColor: '#eee',
-        trailWidth: 10,
         easing: 'easeInOut',
-        duration: 1400,
-        svgStyle: null,
-        svgStyle: null, text: {
-            alignToBottom: false
-        },
+        duration: 1000,
         from: { color: '#FFEA82' },
         to: { color: '#ED6A5A' },
-        // Set default step function for all animate calls
+        text: {
+            alignToBottom: true,
+            style: {
+                fontSize: '25px',
+                fontFamily: 'Helvetica',
+                position: 'absolute',
+                left: '50%',
+                top: '50%'
+            },
+        },
         step: (state, bar) => {
             bar.path.setAttribute('stroke', state.color);
             const value = Math.round(bar.value() * 100) + '°C';
@@ -83,18 +93,18 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     var gpuLoadLine = new ProgressBar.Line('#gpu-load-bar', {
-        strokeWidth: 4,
+        trailWidth: 1,
+        strokeWidth: 3,
         easing: 'easeInOut',
-        duration: 1400,
+        duration: 1000,
         color: '#FFEA82',
         trailColor: '#eee',
-        trailWidth: 1,
-        svgStyle: { width: '100%', height: '100%' },
         from: { color: '#FFEA82' },
         to: { color: '#ED6A5A' },
         text: {
             style: {
-                color: '#999',
+                fontSize: '20px',
+                fontFamily: 'Helvetica',
                 position: 'absolute',
                 right: '0',
                 top: '30px',
@@ -105,14 +115,14 @@ window.addEventListener('DOMContentLoaded', () => {
             autoStyleContainer: false
         },
         step: (state, bar) => {
-            bar.setText(Math.round(bar.value() * 100) + ' %');
+            bar.setText('Usage %' + Math.round(bar.value() * 100));
             bar.path.setAttribute('stroke', state.color);
             bar.text.style.color = state.color;
         }
     });
 
     ipcRenderer.on('systemInfo', (event, systemInfo) => {
-        // Extract the CPU and GPU temperature and usage values from the systemInfo object
+        
         const { cpuTemp, gpuTemp, cpuLoad, gpuLoad } = systemInfo;
 
         cpuTempSemiCircle.animate(cpuTemp / 100);
