@@ -1,0 +1,8 @@
+D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Debug\OHMPortLib.csproj.AssemblyReference.cache
+D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Debug\OHMPortLib.csproj.CoreCompileInputs.cache
+D:\Projects\SimpleSystemMonitor\OHMPortLib\bin\Debug\OHMPortLib.dll
+D:\Projects\SimpleSystemMonitor\OHMPortLib\bin\Debug\OHMPortLib.pdb
+D:\Projects\SimpleSystemMonitor\OHMPortLib\bin\Debug\OpenHardwareMonitorLib.dll
+D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Debug\OHMPortLib.csproj.CopyComplete
+D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Debug\OHMPortLib.dll
+D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Debug\OHMPortLib.pdb

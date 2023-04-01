@@ -8,6 +8,9 @@
     "start": "electron .",
     "build": "electron-builder"
   },
+  "engines": {
+    "node": "18.12.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/burakakkanat/SimpleSystemMonitor.git"
@@ -25,8 +28,7 @@
   "dependencies": {
     "electron-edge-js": "^23.0.0",
     "progressbar.js": "^1.1.0",
-    "shifty": "^2.20.4",
-    "systeminformation": "^5.17.9"
+    "shifty": "^2.20.4"
   },
   "build": {
     "appId": "123456789",

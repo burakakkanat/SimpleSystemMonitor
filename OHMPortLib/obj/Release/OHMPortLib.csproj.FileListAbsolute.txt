@@ -6,10 +6,3 @@ D:\Projects\OHMPortLib\OHMPortLib\obj\Release\OHMPortLib.csproj.CoreCompileInput
 D:\Projects\OHMPortLib\OHMPortLib\obj\Release\OHMPortLib.csproj.CopyComplete
 D:\Projects\OHMPortLib\OHMPortLib\obj\Release\OHMPortLib.dll
 D:\Projects\OHMPortLib\OHMPortLib\obj\Release\OHMPortLib.pdb
-D:\Projects\SimpleSystemMonitor\OHMPortLib\bin\Release\OHMPortLib.dll
-D:\Projects\SimpleSystemMonitor\OHMPortLib\bin\Release\OHMPortLib.pdb
-D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Release\OHMPortLib.csproj.AssemblyReference.cache
-D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Release\OHMPortLib.csproj.CoreCompileInputs.cache
-D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Release\OHMPortLib.csproj.CopyComplete
-D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Release\OHMPortLib.dll
-D:\Projects\SimpleSystemMonitor\OHMPortLib\obj\Release\OHMPortLib.pdb

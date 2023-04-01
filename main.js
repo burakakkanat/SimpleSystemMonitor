@@ -1,24 +1,24 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const edge = require('electron-edge-js');
 const path = require('path');
 
 const getOhmCpuTemp = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Release', 'OHMPortLib.dll'),
+    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getCpuTemperature'
 });
 const getOhmCpuUsage = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Release', 'OHMPortLib.dll'),
+    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getCpuUsage'
 });
 const getOhmGpuTemp = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Release', 'OHMPortLib.dll'),
+    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getGpuTemperature'
 });
 const getOhmGpuUsage = edge.func({
-    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Release', 'OHMPortLib.dll'),
+    assemblyFile: path.join(__dirname, 'OHMPortLib', 'bin', 'Debug', 'OHMPortLib.dll'),
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getGpuUsage'
 });
@@ -39,18 +39,47 @@ function createWindow() {
 
     const sendSystemInfo = async () => {
         try {
+            
+            var tmpCpuUsage;
+            var tmpCpuTemp;
 
-            const cpuLoad = await getOhmCpuUsage();
-            const cpuTemp = await getOhmCpuTemp();
+            var tmpGpuUsage;
+            var tmpGpuTemp;
 
-            const gpuUsage = await getOhmGpuUsage();
-            const gpuTemp = await getOhmGpuTemp();
+            getOhmCpuUsage(null, function (error, result) {
+                if (error) {
+                    throw error
+                };
+                tmpCpuUsage = result;
+            });
+
+            getOhmCpuTemp(null, function (error, result) {
+                if (error) {
+                    throw error
+                };
+                tmpCpuTemp = result;
+            });
+
+            getOhmGpuUsage(null, function (error, result) {
+                if (error) {
+                    throw error
+                };
+                tmpGpuUsage = result;
+            });
+
+            getOhmGpuTemp(null, function (error, result) {
+                if (error) {
+                    throw error
+                };
+                tmpGpuTemp = result;
+            });
 
             const systemInfo = {
-                cpuLoad: cpuLoad,
-                cpuTemp: cpuTemp.toFixed(1),
-                gpuLoad: gpuUsage,
-                gpuTemp: gpuTemp.toFixed(1),
+                cpuLoad: tmpCpuUsage,
+                cpuTemp: tmpCpuTemp,
+
+                gpuLoad: tmpGpuUsage,
+                gpuTemp: tmpGpuTemp,
             }
 
             mainWindow.webContents.send('systemInfo', systemInfo)
@@ -59,7 +88,7 @@ function createWindow() {
         }
     }
 
-    setInterval(sendSystemInfo, 2500);
+    setInterval(sendSystemInfo, 2000);
 }
 
 app.whenReady().then(() => {
