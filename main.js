@@ -2,38 +2,22 @@ const { app, BrowserWindow, Menu } = require('electron');
 const edge = require('electron-edge-js');
 const path = require('path');
 
-// CPU
 const getOhmCpuName = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getCpuName'
 });
-const getOhmCpuTemp = edge.func({
-    assemblyFile: 'OHMPortLib.dll',
-    typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getCpuTemperature'
-});
-const getOhmCpuUsage = edge.func({
-    assemblyFile: 'OHMPortLib.dll',
-    typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getCpuUsage'
-});
 
-// GPU
 const getOhmGpuName = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getGpuName'
 });
-const getOhmGpuTemp = edge.func({
+
+const getOhmSystemInfo = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getGpuTemperature'
-});
-const getOhmGpuUsage = edge.func({
-    assemblyFile: 'OHMPortLib.dll',
-    typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getGpuUsage'
+    methodName: 'getSystemInfo'
 });
 
 let mainWindow;
@@ -53,18 +37,23 @@ function createWindow() {
     mainWindow.setTitle('System Information');
     mainWindow.loadFile('index.html');
 
+    let cpuUsageHolder;
+    let cpuTempHolder;
+    let gpuUsageHolder;
+    let gpuTempHolder;
+
     const setCpuGpuNames = async () => {
-        
+
         let tmpCpuName;
         let tmpGpuName;
-    
+
         getOhmCpuName(null, function (error, result) {
             if (error) {
                 throw error
             };
             tmpCpuName = result;
         });
-    
+
         getOhmGpuName(null, function (error, result) {
             if (error) {
                 throw error
@@ -80,57 +69,24 @@ function createWindow() {
         mainWindow.webContents.send('cpuGpuNames', cpuGpuNames)
     }
 
-    let tmpCpuUsage;
-    let tmpCpuTemp;
-
-    let tmpGpuUsage;
-    let tmpGpuTemp;
-
     const sendSystemInfo = async () => {
         try {
-
-            getOhmCpuUsage(null, function (error, result) {
+            getOhmSystemInfo(null, function (error, result) {
                 if (error) {
                     throw error
                 };
-                if (result > 0) {
-                    tmpCpuUsage = result;
-                }
-            });
-
-            getOhmCpuTemp(null, function (error, result) {
-                if (error) {
-                    throw error
-                };
-                if (result > 0) {
-                    tmpCpuTemp = result;
-                }
-            });
-
-            getOhmGpuUsage(null, function (error, result) {
-                if (error) {
-                    throw error
-                };
-                if (result > 0) {
-                    tmpGpuUsage = result;
-                }
-            });
-
-            getOhmGpuTemp(null, function (error, result) {
-                if (error) {
-                    throw error
-                };
-                if (result > 0) {
-                    tmpGpuTemp = result;
-                }
+                cpuUsageHolder = result[0] > 0 ? result[0] : cpuUsageHolder;
+                cpuTempHolder = result[1] > 0 ? result[1] : cpuTempHolder;
+                gpuUsageHolder = result[2] > 0 ? result[2] : gpuUsageHolder;
+                gpuTempHolder = result[3] > 0 ? result[3] : gpuTempHolder;
             });
 
             const systemInfo = {
-                cpuLoad: tmpCpuUsage,
-                cpuTemp: tmpCpuTemp,
+                cpuUsage: cpuUsageHolder,
+                cpuTemp: cpuTempHolder,
 
-                gpuLoad: tmpGpuUsage,
-                gpuTemp: tmpGpuTemp,
+                gpuUsage: gpuUsageHolder,
+                gpuTemp: gpuTempHolder,
             }
 
             mainWindow.webContents.send('systemInfo', systemInfo);

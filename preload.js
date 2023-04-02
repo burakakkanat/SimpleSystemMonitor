@@ -123,13 +123,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.on('systemInfo', (event, systemInfo) => {
 
-        const { cpuTemp, gpuTemp, cpuLoad, gpuLoad } = systemInfo;
+        const { cpuTemp, gpuTemp, cpuUsage, gpuUsage } = systemInfo;
 
         cpuTempSemiCircle.animate(cpuTemp / 100);
-        cpuLoadLine.animate(cpuLoad / 100);
+        cpuLoadLine.animate(cpuUsage / 100);
 
         gpuTempSemiCircle.animate(gpuTemp / 100);
-        gpuLoadLine.animate(gpuLoad / 100);
+        gpuLoadLine.animate(gpuUsage / 100);
     });
 
     ipcRenderer.on('cpuGpuNames', (event, cpuGpuNames) => {
