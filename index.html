@@ -5,25 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Displayer</title>
+    <title>Simple System Monitor</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
+            padding-top: 5%;
+            width: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(20, 30, 40);
         }
 
         h3 {
             font-family: Helvetica;
             color: white;
             font-size: 25px;
-        }
-
-        #systemInfo {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-color: rgb(20, 30, 40);
         }
 
         .systemSection {
@@ -61,27 +60,25 @@
 </head>
 
 <body>
-    <div id="systemInfo">
-        <div class="systemSection">
-            <h3 id="cpu-title"></h3>
-            <div class="systemInfoElementContainer">
-                <div class="semiCircleContainer">
-                    <div id="cpu-temperature-bar"></div>
-                </div>
-                <div class="barContainer">
-                    <div id="cpu-load-bar"></div>
-                </div>
+    <div class="systemSection">
+        <h3 id="cpu-title">CPU</h3>
+        <div class="systemInfoElementContainer">
+            <div class="semiCircleContainer">
+                <div id="cpu-temperature-bar"></div>
+            </div>
+            <div class="barContainer">
+                <div id="cpu-load-bar"></div>
             </div>
         </div>
-        <div class="systemSection">
-            <h3 id="gpu-title"></h3>
-            <div class="systemInfoElementContainer">
-                <div class="semiCircleContainer">
-                    <div id="gpu-temperature-bar"></div>
-                </div>
-                <div class="barContainer">
-                    <div id="gpu-load-bar"></div>
-                </div>
+    </div>
+    <div class="systemSection">
+        <h3 id="gpu-title">GPU</h3>
+        <div class="systemInfoElementContainer">
+            <div class="semiCircleContainer">
+                <div id="gpu-temperature-bar"></div>
+            </div>
+            <div class="barContainer">
+                <div id="gpu-load-bar"></div>
             </div>
         </div>
     </div>

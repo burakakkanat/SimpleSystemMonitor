@@ -77,8 +77,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 fontSize: '20px',
                 fontFamily: 'Helvetica',
                 position: 'absolute',
-                right: '0',
-                top: '0',
+                right: '0px',
+                top: '30px',
                 padding: 0,
                 margin: 0,
                 transform: null
@@ -106,8 +106,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 fontSize: '20px',
                 fontFamily: 'Helvetica',
                 position: 'absolute',
-                right: '0',
-                top: '0',
+                right: '0px',
+                top: '30px',
                 padding: 0,
                 margin: 0,
                 transform: null

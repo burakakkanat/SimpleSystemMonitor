@@ -1,96 +1,84 @@
 ﻿using OpenHardwareMonitor.Hardware;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OHMPort
 {
     public class OHMPortClass
     {
-        float cpuUsage;
-        float cpuTemp;
-        float gpuUsage;
-        float gpuTemp;
+        private readonly Computer computer;
 
-        public async Task<object> getSystemInfo(object input)
+        public OHMPortClass()
         {
-            setCpuInfo();
-            setGpuInfo();
-
-            float[] infoArray = new float[4];
-            infoArray[0] = cpuUsage;
-            infoArray[1] = cpuTemp;
-            infoArray[2] = gpuUsage;
-            infoArray[3] = gpuTemp;
-
-            return infoArray;
+            computer = new Computer();
+            computer.Open();
+            computer.CPUEnabled = true;
+            computer.GPUEnabled = true;
         }
 
-        public void setCpuInfo()
+        public async Task<object> GetSystemInfo(object input)
         {
-            Computer computer = new Computer()
+            await UpdateHardwareAsync();
+            return new float[] { cpuUsage, cpuTemp, gpuUsage, gpuTemp };
+        }
+
+        private async Task UpdateHardwareAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    foreach (var hardware in computer.Hardware)
+                    {
+                        hardware.Update();
+
+                        if (hardware.HardwareType == HardwareType.CPU)
+                        {
+                            foreach (var sensor in hardware.Sensors)
+                            {
+                                if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("CPU Package"))
+                                {
+                                    cpuTemp = (float)sensor.Value;
+                                }
+                                else if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("CPU Total"))
+                                {
+                                    cpuUsage = (float)sensor.Value;
+                                }
+                            }
+                        }
+                        else if (hardware.HardwareType == HardwareType.GpuAti || hardware.HardwareType == HardwareType.GpuNvidia)
+                        {
+                            foreach (var sensor in hardware.Sensors)
+                            {
+                                if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("GPU Core"))
+                                {
+                                    gpuTemp = (float)sensor.Value;
+                                }
+                                else if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("GPU Core"))
+                                {
+                                    gpuUsage = (float)sensor.Value;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    // Handle any exceptions that may occur when accessing the hardware data.
+                }
+            });
+        }
+
+        public async Task<object> GetCpuName(object input)
+        {
+            Computer cpt = new Computer()
             {
                 CPUEnabled = true,
             };
 
-            computer.Open();
+            cpt.Open();
 
-            foreach (var hardware in computer.Hardware)
-            {
-                if (hardware.HardwareType == HardwareType.CPU)
-                {
-                    hardware.Update();
-
-                    foreach (var sensor in hardware.Sensors)
-                        if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("CPU Package"))
-                        {
-                            cpuTemp = sensor.Value.GetValueOrDefault();
-
-                        }
-                        else if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("CPU Total"))
-                        {
-                            cpuUsage = sensor.Value.GetValueOrDefault();
-                        }
-                }
-            }
-        }
-
-        public void setGpuInfo()
-        {
-            Computer computer = new Computer()
-            {
-                GPUEnabled = true,
-            };
-
-            computer.Open();
-
-            foreach (var hardware in computer.Hardware)
-            {
-                if (hardware.HardwareType == HardwareType.GpuAti || hardware.HardwareType == HardwareType.GpuNvidia)
-                {
-                    hardware.Update();
-
-                    foreach (var sensor in hardware.Sensors)
-                        if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("GPU Core"))
-                        {
-                            gpuTemp = sensor.Value.GetValueOrDefault();
-                        }
-                        else if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("GPU Core"))
-                        {
-                            gpuUsage = sensor.Value.GetValueOrDefault();
-                        }
-                }
-            }
-        }
-
-        public async Task<object> getCpuName(object input)
-        {
-            Computer computer = new Computer()
-            {
-                CPUEnabled = true,
-            };
-
-            computer.Open();
-
-            foreach (var hardware in computer.Hardware)
+            foreach (var hardware in cpt.Hardware)
             {
                 if (hardware.HardwareType == HardwareType.CPU)
                 {
@@ -101,16 +89,16 @@ namespace OHMPort
             return "CPU";
         }
 
-        public async Task<object> getGpuName(object input)
+        public async Task<object> GetGpuName(object input)
         {
-            Computer computer = new Computer()
+            Computer cpt = new Computer()
             {
                 GPUEnabled = true,
             };
 
-            computer.Open();
+            cpt.Open();
 
-            foreach (var hardware in computer.Hardware)
+            foreach (var hardware in cpt.Hardware)
             {
                 if (hardware.HardwareType == HardwareType.GpuAti || hardware.HardwareType == HardwareType.GpuNvidia)
                 {
@@ -120,5 +108,10 @@ namespace OHMPort
 
             return "GPU";
         }
+
+        private float cpuUsage;
+        private float cpuTemp;
+        private float gpuUsage;
+        private float gpuTemp;
     }
 }

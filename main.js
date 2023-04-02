@@ -5,19 +5,19 @@ const path = require('path');
 const getOhmCpuName = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getCpuName'
+    methodName: 'GetCpuName'
 });
 
 const getOhmGpuName = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getGpuName'
+    methodName: 'GetGpuName'
 });
 
 const getOhmSystemInfo = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
-    methodName: 'getSystemInfo'
+    methodName: 'GetSystemInfo'
 });
 
 let mainWindow;
