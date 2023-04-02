@@ -75,6 +75,7 @@ function createWindow() {
                 if (error) {
                     throw error
                 };
+
                 cpuUsageHolder = result[0] > 0 ? result[0] : cpuUsageHolder;
                 cpuTempHolder = result[1] > 0 ? result[1] : cpuTempHolder;
                 gpuUsageHolder = result[2] > 0 ? result[2] : gpuUsageHolder;

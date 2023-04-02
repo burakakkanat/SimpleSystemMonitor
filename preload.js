@@ -36,35 +36,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const cpuLoadLine = new ProgressBar.Line('#cpu-load-bar', {
-        trailWidth: 1,
-        strokeWidth: 3,
-        easing: 'easeInOut',
-        duration: 500,
-        color: '#FFEA82',
-        trailColor: '#eee',
-        from: { color: '#FFEA82' },
-        to: { color: '#ED6A5A' },
-        text: {
-            style: {
-                fontSize: '20px',
-                fontFamily: 'Helvetica',
-                position: 'absolute',
-                right: '0',
-                top: '30px',
-                padding: 0,
-                margin: 0,
-                transform: null
-            },
-            autoStyleContainer: false
-        },
-        step: (state, bar) => {
-            bar.setText('%' + Math.round(bar.value() * 100) + " usage");
-            bar.path.setAttribute('stroke', state.color);
-            bar.text.style.color = state.color;
-        }
-    });
-
     const gpuTempSemiCircle = new ProgressBar.SemiCircle('#gpu-temperature-bar', {
         trailWidth: 10,
         strokeWidth: 10,
@@ -92,9 +63,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const gpuLoadLine = new ProgressBar.Line('#gpu-load-bar', {
-        trailWidth: 1,
-        strokeWidth: 3,
+    const cpuUsageBar = new ProgressBar.Line('#cpu-load-bar', {
+        trailWidth: 0,
+        strokeWidth: 0,
         easing: 'easeInOut',
         duration: 500,
         color: '#FFEA82',
@@ -107,7 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 fontFamily: 'Helvetica',
                 position: 'absolute',
                 right: '0',
-                top: '30px',
+                top: '0',
                 padding: 0,
                 margin: 0,
                 transform: null
@@ -115,7 +86,36 @@ window.addEventListener('DOMContentLoaded', () => {
             autoStyleContainer: false
         },
         step: (state, bar) => {
-            bar.setText('%' + Math.round(bar.value() * 100) + " usage");
+            bar.setText(Math.round(bar.value() * 100) + "% usage");
+            bar.path.setAttribute('stroke', state.color);
+            bar.text.style.color = state.color;
+        }
+    });
+
+    const gpuUsageBar = new ProgressBar.Line('#gpu-load-bar', {
+        trailWidth: 0,
+        strokeWidth: 0,
+        easing: 'easeInOut',
+        duration: 500,
+        color: '#FFEA82',
+        trailColor: '#eee',
+        from: { color: '#FFEA82' },
+        to: { color: '#ED6A5A' },
+        text: {
+            style: {
+                fontSize: '20px',
+                fontFamily: 'Helvetica',
+                position: 'absolute',
+                right: '0',
+                top: '0',
+                padding: 0,
+                margin: 0,
+                transform: null
+            },
+            autoStyleContainer: false
+        },
+        step: (state, bar) => {
+            bar.setText(Math.round(bar.value() * 100) + "% usage");
             bar.path.setAttribute('stroke', state.color);
             bar.text.style.color = state.color;
         }
@@ -126,10 +126,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const { cpuTemp, gpuTemp, cpuUsage, gpuUsage } = systemInfo;
 
         cpuTempSemiCircle.animate(cpuTemp / 100);
-        cpuLoadLine.animate(cpuUsage / 100);
+        cpuUsageBar.animate(cpuUsage / 100);
 
         gpuTempSemiCircle.animate(gpuTemp / 100);
-        gpuLoadLine.animate(gpuUsage / 100);
+        gpuUsageBar.animate(gpuUsage / 100);
     });
 
     ipcRenderer.on('cpuGpuNames', (event, cpuGpuNames) => {
