@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
             autoStyleContainer: false
         },
         step: (state, bar) => {
-            bar.setText('Usage %' + Math.round(bar.value() * 100));
+            bar.setText('%' + Math.round(bar.value() * 100) + " usage");
             bar.path.setAttribute('stroke', state.color);
             bar.text.style.color = state.color;
         }
@@ -115,14 +115,14 @@ window.addEventListener('DOMContentLoaded', () => {
             autoStyleContainer: false
         },
         step: (state, bar) => {
-            bar.setText('Usage %' + Math.round(bar.value() * 100));
+            bar.setText('%' + Math.round(bar.value() * 100) + " usage");
             bar.path.setAttribute('stroke', state.color);
             bar.text.style.color = state.color;
         }
     });
 
     ipcRenderer.on('systemInfo', (event, systemInfo) => {
-        
+
         const { cpuTemp, gpuTemp, cpuLoad, gpuLoad } = systemInfo;
 
         cpuTempSemiCircle.animate(cpuTemp / 100);
@@ -130,5 +130,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
         gpuTempSemiCircle.animate(gpuTemp / 100);
         gpuLoadLine.animate(gpuLoad / 100);
+    });
+
+    ipcRenderer.on('cpuGpuNames', (event, cpuGpuNames) => {
+
+        const { cpuName, gpuName } = cpuGpuNames;
+
+        document.getElementById('cpu-title').innerText = cpuName;
+        document.getElementById('gpu-title').innerText = gpuName;
+
     });
 });

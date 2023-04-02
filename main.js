@@ -2,6 +2,12 @@ const { app, BrowserWindow, Menu } = require('electron');
 const edge = require('electron-edge-js');
 const path = require('path');
 
+// CPU
+const getOhmCpuName = edge.func({
+    assemblyFile: 'OHMPortLib.dll',
+    typeName: 'OHMPort.OHMPortClass',
+    methodName: 'getCpuName'
+});
 const getOhmCpuTemp = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
@@ -11,6 +17,13 @@ const getOhmCpuUsage = edge.func({
     assemblyFile: 'OHMPortLib.dll',
     typeName: 'OHMPort.OHMPortClass',
     methodName: 'getCpuUsage'
+});
+
+// GPU
+const getOhmGpuName = edge.func({
+    assemblyFile: 'OHMPortLib.dll',
+    typeName: 'OHMPort.OHMPortClass',
+    methodName: 'getGpuName'
 });
 const getOhmGpuTemp = edge.func({
     assemblyFile: 'OHMPortLib.dll',
@@ -28,17 +41,45 @@ let mainWindow;
 function createWindow() {
 
     mainWindow = new BrowserWindow({
+        height: 1280,
+        width: 800,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             sandbox: false
         }
     })
 
-    Menu.setApplicationMenu(null)
+    Menu.setApplicationMenu(null);
 
     mainWindow.setTitle('System Information');
 
     mainWindow.loadFile('index.html');
+
+    const setCpuGpuNames = async () => {
+        var tmpCpuName;
+        var tmpGpuName;
+    
+        getOhmCpuName(null, function (error, result) {
+            if (error) {
+                throw error
+            };
+            tmpCpuName = result;
+        });
+    
+        getOhmGpuName(null, function (error, result) {
+            if (error) {
+                throw error
+            };
+            tmpGpuName = result.replace(/NVIDIA(.*?NVIDIA)*/g, 'NVIDIA');
+        });
+    
+        const cpuGpuNames = {
+            cpuName: tmpCpuName,
+            gpuName: tmpGpuName,
+        }
+    
+        mainWindow.webContents.send('cpuGpuNames', cpuGpuNames)
+    }
 
     const sendSystemInfo = async () => {
         try {
@@ -91,7 +132,8 @@ function createWindow() {
         }
     }
 
-    setInterval(sendSystemInfo, 2500);
+    setCpuGpuNames();
+    setInterval(sendSystemInfo, 1000);
 }
 
 app.whenReady().then(() => {
