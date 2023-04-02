@@ -1,5 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron')
-var ProgressBar = require('progressbar.js');
+const ProgressBar = require('progressbar.js');
 
 contextBridge.exposeInMainWorld('myAPI', {
     receive: (channel, callback) => {
@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
         color: '#FFEA82',
         trailColor: '#eee',
         easing: 'easeInOut',
-        duration: 1000,
+        duration: 500,
         from: { color: '#FFEA82' },
         to: { color: '#ED6A5A' },
         text: {
@@ -36,11 +36,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    var cpuLoadLine = new ProgressBar.Line('#cpu-load-bar', {
+    const cpuLoadLine = new ProgressBar.Line('#cpu-load-bar', {
         trailWidth: 1,
         strokeWidth: 3,
         easing: 'easeInOut',
-        duration: 1000,
+        duration: 500,
         color: '#FFEA82',
         trailColor: '#eee',
         from: { color: '#FFEA82' },
@@ -71,7 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
         color: '#FFEA82',
         trailColor: '#eee',
         easing: 'easeInOut',
-        duration: 1000,
+        duration: 500,
         from: { color: '#FFEA82' },
         to: { color: '#ED6A5A' },
         text: {
@@ -92,11 +92,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    var gpuLoadLine = new ProgressBar.Line('#gpu-load-bar', {
+    const gpuLoadLine = new ProgressBar.Line('#gpu-load-bar', {
         trailWidth: 1,
         strokeWidth: 3,
         easing: 'easeInOut',
-        duration: 1000,
+        duration: 500,
         color: '#FFEA82',
         trailColor: '#eee',
         from: { color: '#FFEA82' },

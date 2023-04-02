@@ -50,14 +50,13 @@ function createWindow() {
     })
 
     Menu.setApplicationMenu(null);
-
     mainWindow.setTitle('System Information');
-
     mainWindow.loadFile('index.html');
 
     const setCpuGpuNames = async () => {
-        var tmpCpuName;
-        var tmpGpuName;
+        
+        let tmpCpuName;
+        let tmpGpuName;
     
         getOhmCpuName(null, function (error, result) {
             if (error) {
@@ -72,50 +71,58 @@ function createWindow() {
             };
             tmpGpuName = result.replace(/NVIDIA(.*?NVIDIA)*/g, 'NVIDIA');
         });
-    
+
         const cpuGpuNames = {
             cpuName: tmpCpuName,
             gpuName: tmpGpuName,
         }
-    
+
         mainWindow.webContents.send('cpuGpuNames', cpuGpuNames)
     }
 
+    let tmpCpuUsage;
+    let tmpCpuTemp;
+
+    let tmpGpuUsage;
+    let tmpGpuTemp;
+
     const sendSystemInfo = async () => {
         try {
-            
-            var tmpCpuUsage;
-            var tmpCpuTemp;
-
-            var tmpGpuUsage;
-            var tmpGpuTemp;
 
             getOhmCpuUsage(null, function (error, result) {
                 if (error) {
                     throw error
                 };
-                tmpCpuUsage = result;
+                if (result > 0) {
+                    tmpCpuUsage = result;
+                }
             });
 
             getOhmCpuTemp(null, function (error, result) {
                 if (error) {
                     throw error
                 };
-                tmpCpuTemp = result;
+                if (result > 0) {
+                    tmpCpuTemp = result;
+                }
             });
 
             getOhmGpuUsage(null, function (error, result) {
                 if (error) {
                     throw error
                 };
-                tmpGpuUsage = result;
+                if (result > 0) {
+                    tmpGpuUsage = result;
+                }
             });
 
             getOhmGpuTemp(null, function (error, result) {
                 if (error) {
                     throw error
                 };
-                tmpGpuTemp = result;
+                if (result > 0) {
+                    tmpGpuTemp = result;
+                }
             });
 
             const systemInfo = {
@@ -126,7 +133,7 @@ function createWindow() {
                 gpuTemp: tmpGpuTemp,
             }
 
-            mainWindow.webContents.send('systemInfo', systemInfo)
+            mainWindow.webContents.send('systemInfo', systemInfo);
         } catch (error) {
             console.error(error);
         }
